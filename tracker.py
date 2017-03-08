@@ -1,17 +1,21 @@
 # Tracker pyTorrent
-# Jesús Gracia & Miquel Sabaté
+# Jesus Gracia & Miquel Sabate
 # GEI URV 2016/2017
-# Version 1.1
+# Version 2.0
 # Last-update 08.03.17
 
-from pyactor.context import set_context, create_host, sleep, shutdown
+from pyactor.context import set_context, create_host, serve_forever, sleep
 
 class Tracker(object):
-        _tell = ['announce', 'update']
+        _tell = ['announce', 'update', 'init']
         _ask = ['get_peers']
         _ref = ['announce']
 
         peers = {}
+
+        def init(self):
+            sleep(5) # sleep implemented in order to avoid an update when execTime=0
+            self.interval1 = self.host.interval(5, self.proxy, "update")
 
         def get_peers(self, torrent_hash):
             return self.peers[torrent_hash]
@@ -33,10 +37,13 @@ class Tracker(object):
                         peers_temp.remove(tup)
                         peers_temp.append(newTup);
                     self.peers[key] = peers_temp
+            print self.peers
 
 if __name__ == "__main__":
     set_context()
-    h = create_host()
-    e1 = h.spawn('tracker', Tracker)
+    host = create_host('http://127.0.0.1:1277/')
 
+    track = host.spawn('tracker', Tracker)
+
+    track.init()
     serve_forever()
