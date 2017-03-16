@@ -4,7 +4,7 @@
 # Version 2.1
 # Last-update 15.03.17
 
-from pyactor.context import set_context, create_host, sleep, shutdown, serve_forever
+from pyactor.context import set_context, create_host, shutdown, serve_forever
 from random import randint
 import random
 import sys
