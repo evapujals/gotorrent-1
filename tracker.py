@@ -8,39 +8,39 @@ from pyactor.context import set_context, create_host, serve_forever, sleep
 import random
 
 class Tracker(object):
-        _tell = ['announce', 'update', 'init']
-        _ask = ['get_peers']
-        _ref = ['announce', 'get_peers']
+    _tell = ['announce', 'update', 'init']
+    _ask = ['get_peers']
+    _ref = ['announce', 'get_peers']
 
-        peers = {}
+    peers = {}
 
-        def init(self):
-            sleep(5) # sleep implemented in order to avoid an update when execTime=0
-            self.interval1 = self.host.interval(5, self.proxy, "update")
+    def init(self):
+        sleep(5) # sleep implemented in order to avoid an update when execTime=0
+        self.interval1 = self.host.interval(5, self.proxy, "update")
 
-        def get_peers(self, torrent_hash):
-            peerResult = []
-            if len(self.peers[torrent_hash]) > 3:
-                num = self.peers[torrent_hash].keys()
-                peerResult = random.sample(num, 3)
-            else:
-                print self.peers[torrent_hash]
-                peerResult = self.peers[torrent_hash].keys()
-            return peerResult
+    def get_peers(self, torrent_hash):
+        peerResult = []
+        if len(self.peers[torrent_hash]) > 3:
+            num = self.peers[torrent_hash].keys()
+            peerResult = random.sample(num, 3)
+        else:
+            print self.peers[torrent_hash]
+            peerResult = self.peers[torrent_hash].keys()
+        return peerResult
 
-        def announce(self, torrent_hash, peer):
-            if not(self.peers.has_key(torrent_hash)):
-    		         self.peers[torrent_hash] = {}
-            self.peers[torrent_hash][peer] = 1
+    def announce(self, torrent_hash, peer):
+        if not(self.peers.has_key(torrent_hash)):
+		         self.peers[torrent_hash] = {}
+        self.peers[torrent_hash][peer] = 1
 
-        def update(self):
-            for swamp in self.peers.keys():
-                for peer in self.peers[swamp].keys():
-                    if self.peers[swamp][peer] == 0:
-                        del self.peers[swamp][peer]
-                    else:
-                        self.peers[swamp][peer] = 0
-            print self.peers
+    def update(self):
+        for swamp in self.peers.keys():
+            for peer in self.peers[swamp].keys():
+                if self.peers[swamp][peer] == 0:
+                    del self.peers[swamp][peer]
+                else:
+                    self.peers[swamp][peer] = 0
+        print self.peers
 
 if __name__ == "__main__":
     set_context()

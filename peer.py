@@ -10,39 +10,39 @@ import random
 import sys
 
 class Peer(object):
-        _tell = ['get_peers', 'announce', 'set_hash', 'init', 'missatge', 'push']
-        _ask = []
-        _ref = ['get_peers', 'push']
+    _tell = ['get_peers', 'announce', 'set_hash', 'init', 'missatge', 'push']
+    _ask = []
+    _ref = ['get_peers', 'push']
 
-        torrent_hash = ""
-        tracker=""
-        neighbors=""
-        data=""
+    torrent_hash = ""
+    tracker=""
+    neighbors=""
+    data=""
 
-        def init(self, torrent_hash):
-            self.tracker = host.lookup_url('http://127.0.0.1:1277/tracker', 'Tracker', 'tracker')
-            self.interval1 = self.host.interval(5, self.proxy, "announce", torrent_hash)
-            # peer will send an announce every 5 seconds to tracker
-            self.interval2 = self.host.interval(10, self.proxy, "get_peers")
-            # peer will do the method get_peers every 10 seconds
-            self.interval3 = self.host.interval(4, self.proxy, "push")
+    def init(self, torrent_hash):
+        self.tracker = host.lookup_url('http://127.0.0.1:1277/tracker', 'Tracker', 'tracker')
+        self.interval1 = self.host.interval(5, self.proxy, "announce", torrent_hash)
+        # peer will send an announce every 5 seconds to tracker
+        self.interval2 = self.host.interval(10, self.proxy, "get_peers")
+        # peer will do the method get_peers every 10 seconds
+        self.interval3 = self.host.interval(4, self.proxy, "push")
 
-        def announce(self, torrent_hash):
-            self.torrent_hash = torrent_hash
-            self.tracker.announce(torrent_hash, self.proxy)
+    def announce(self, torrent_hash):
+        self.torrent_hash = torrent_hash
+        self.tracker.announce(torrent_hash, self.proxy)
 
-        def get_peers(self):
-            self.neighbors = self.tracker.get_peers(self.torrent_hash)
+    def get_peers(self):
+        self.neighbors = self.tracker.get_peers(self.torrent_hash)
 
 
-        def push(self):
-            rndm = random.choice(self.neighbors)
-            rndm.missatge(self.id)
+    def push(self):
+        rndm = random.choice(self.neighbors)
+        rndm.missatge(self.id)
 
-        def missatge(self, msg):
-            print msg
+    def missatge(self, msg):
+        print msg
 
-        #def pull(self):
+    #def pull(self):
 
 
 if __name__ == "__main__":
