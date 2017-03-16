@@ -42,18 +42,6 @@ class Tracker(object):
                         self.peers[swamp][peer] = 0
             print self.peers
 
-            #for key in self.peers.keys():
-                #peers_temp = list(self.peers[key])
-                #for tup in self.peers[key]:
-                    #if 0 in tup:
-                        #peers_temp.remove(tup)
-                    #else:
-                        #newTup = (tup[0], 0)
-                        #peers_temp.remove(tup)
-                        #peers_temp.append(newTup);
-                    #self.peers[key] = peers_temp
-            #print self.peers
-
 if __name__ == "__main__":
     set_context()
     host = create_host('http://127.0.0.1:1277/')
