@@ -40,7 +40,7 @@ class Tracker(object):
                     del self.peers[swamp][peer]
                 else:
                     self.peers[swamp][peer] = 0
-        print self.peers
+        
 
 if __name__ == "__main__":
     set_context()
