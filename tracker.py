@@ -26,7 +26,6 @@ class Tracker(object):
         else:
             print self.peers[torrent_hash]
             peerResult = self.peers[torrent_hash].keys()
-        return peerResult
 
     def announce(self, torrent_hash, peer):
         if not(self.peers.has_key(torrent_hash)):
@@ -40,7 +39,7 @@ class Tracker(object):
                     del self.peers[swamp][peer]
                 else:
                     self.peers[swamp][peer] = 0
-        
+
 
 if __name__ == "__main__":
     set_context()
