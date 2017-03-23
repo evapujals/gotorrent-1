@@ -29,7 +29,7 @@ class Tracker(object):
 
     def announce(self, torrent_hash, peer):
         if not(self.peers.has_key(torrent_hash)):
-		         self.peers[torrent_hash] = {}
+            self.peers[torrent_hash] = {}
         self.peers[torrent_hash][peer] = 1
 
     def update(self):
