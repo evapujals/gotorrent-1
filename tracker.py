@@ -4,7 +4,7 @@
 # Version 2.1
 # Last-update 15.03.17
 
-from pyactor.context import set_context, create_host, serve_forever, sleep
+from pyactor.context import set_context, create_host, serve_forever, sleep, interval
 import random
 
 class Tracker(object):
@@ -16,16 +16,17 @@ class Tracker(object):
 
     def init(self):
         sleep(5) # sleep implemented in order to avoid an update when execTime=0
-        self.interval1 = self.host.interval(5, self.proxy, "update")
+        self.interval1 = interval(self.host, 5, self.proxy, "update")
 
     def get_peers(self, torrent_hash):
         peerResult = []
-        if len(self.peers[torrent_hash]) > 3:
+        if len(self.peers[torrent_hash].keys()) > 3:
             num = self.peers[torrent_hash].keys()
             peerResult = random.sample(num, 3)
         else:
             print self.peers[torrent_hash]
             peerResult = self.peers[torrent_hash].keys()
+        return peerResult
 
     def announce(self, torrent_hash, peer):
         if not(self.peers.has_key(torrent_hash)):
