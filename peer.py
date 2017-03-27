@@ -90,12 +90,13 @@ if __name__ == "__main__":
         type_of_peer = str(sys.argv[1])
         torrent_hash = str(sys.argv[2])
         lenData = int(sys.argv[3])
-        if len(str(sys.argv[4])) != lenData:
-            print "Error in length. Length should be ", lenData, " and message has a length of ", len(str(sys.argv[3]))
+        with open(str(sys.argv[4]), 'r') as f:
+            data = f.read()
+            f.closed
+        if len(data) != lenData:
+            print "Error in length. Length should be ", lenData, " and message has a length of ", len(data)
             shutdown()
             exit()
-        data = list(str(sys.argv[3]))
-
     peer.init(torrent_hash)
 
     serve_forever()
