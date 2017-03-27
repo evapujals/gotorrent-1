@@ -4,7 +4,7 @@
 # Version 2.1
 # Last-update 15.03.17
 
-from pyactor.context import set_context, create_host, shutdown, serve_forever
+from pyactor.context import set_context, create_host, shutdown, serve_forever, interval
 from random import randint
 import random
 import sys
@@ -24,17 +24,17 @@ class Peer(object):
 
     def init(self, torrent_hash):
         self.tracker = host.lookup_url('http://127.0.0.1:1277/tracker', 'Tracker', 'tracker')
-        self.interval1 = self.host.interval(5, self.proxy, "announce", torrent_hash)
+        self.interval1 = interval(self.host, 5, self.proxy, "announce", torrent_hash)
         # peer will send an announce every 5 seconds to tracker
-        self.interval2 = self.host.interval(10, self.proxy, "get_peers")
+        self.interval2 = interval(self.host, 10, self.proxy, "get_peers")
         # peer will do the method get_peers every 10 seconds
         if type_of_peer == "push":
-            self.interval3 = self.host.interval(4, self.proxy, "push")
+            self.interval3 = interval(self.host, 4, self.proxy, "push")
         elif type_of_peer == "pull":
-            self.interval3 = self.host.interval(4, self.proxy, "pull")
+            self.interval3 = interval(self.host, 4, self.proxy, "pull")
         elif type_of_peer == "hybrid":
-            self.interval3 = self.host.interval(4, self.proxy, "push")
-            self.interval4 = self.host.interval(4, self.proxy, "pull")
+            self.interval3 = interval(self.host, 4, self.proxy, "push")
+            self.interval4 = interval(self.host, 4, self.proxy, "pull")
 
     def announce(self, torrent_hash):
         self.torrent_hash = torrent_hash
@@ -91,7 +91,7 @@ if __name__ == "__main__":
         torrent_hash = str(sys.argv[2])
         lenData = int(sys.argv[3])
         with open(str(sys.argv[4]), 'r') as f:
-            data = f.read()
+            data = list(f.read())
             f.closed
         if len(data) != lenData:
             print "Error in length. Length should be ", lenData, " and message has a length of ", len(data)
