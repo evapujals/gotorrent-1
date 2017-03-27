@@ -47,7 +47,7 @@ class Peer(object):
 
     def push(self):
         rndm = random.choice(self.neighbors)
-        index = random.randint(0, len(data))
+        index = random.randint(0, len(data)-1)
         if (data[index] != ''):
             rndm.missatge(data[index], index)
 
