@@ -56,7 +56,7 @@ class Peer(object):
 
     def pull(self):
         rndm = random.choice(self.neighbors)
-        index = random.randint(0, len(data))
+        index = random.randint(0, len(data)-1)
         if (data[index] == ''):
             data[index] = rndm.request(index)
 
