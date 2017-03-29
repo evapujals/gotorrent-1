@@ -10,7 +10,7 @@ import random
 import sys
 
 class Peer(object):
-    _tell = ['get_peers', 'announce', 'set_hash', 'init', 'missatge', 'push', 'pull','average']
+    _tell = ['get_peers', 'announce', 'set_hash', 'init', 'missatge', 'push', 'pull', 'average']
     _ask = ['request']
     _ref = ['get_peers', 'push', 'pull']
 
@@ -23,7 +23,7 @@ class Peer(object):
 
 
     def init(self):
-        self.tracker = host.lookup_url('http://127.0.0.1:1277/tracker', 'Tracker', 'tracker')
+        self.tracker = host.lookup_url('http://127.0.0.1:1277/tracker', 'Tracker', 'trackerG')
         self.interval1 = interval(self.host, 5, self.proxy, "announce")
         # peer will send an announce every 5 seconds to tracker
         self.interval2 = interval(self.host, 10, self.proxy, "get_peers")
@@ -44,11 +44,15 @@ class Peer(object):
         self.neighbors = self.tracker.get_peers(self.torrent_hash, self.proxy)
 
     def average(self):
-        count = 0
-        for char in self.data:
-            if char != '':
-                count += 1
-        print float((count*100)/ lenData)
+        counter = 0
+        for item in data:
+            if item != '':
+                counter += 1
+        result = float((counter*100)/ lenData)
+        if result == 100:
+            self.tracker.count()
+            self.interval4.set() #stops the interval
+        print result
     
     def push(self):
         if self.neighbors != []:

@@ -8,11 +8,18 @@ from pyactor.context import set_context, create_host, serve_forever, sleep, inte
 import random
 
 class Tracker(object):
-    _tell = ['announce', 'update', 'init']
+    _tell = ['announce', 'update', 'init', 'count']
     _ask = ['get_peers']
     _ref = ['announce', 'get_peers']
 
     peers = {}
+    finished=16
+
+    def count(self):
+        self.finished -= 1
+        print self.finished, "left"
+        if self.finished == 0:
+            print "Done!!"
 
     def init(self):
         sleep(5) # sleep implemented in order to avoid an update when execTime=0
