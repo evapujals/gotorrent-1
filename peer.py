@@ -22,7 +22,7 @@ class Peer(object):
     type_of_peer=""
 
 
-    def init(self, torrent_hash):
+    def init(self):
         self.tracker = host.lookup_url('http://127.0.0.1:1277/tracker', 'Tracker', 'tracker')
         self.interval1 = interval(self.host, 5, self.proxy, "announce")
         # peer will send an announce every 5 seconds to tracker
@@ -75,11 +75,11 @@ if __name__ == "__main__":
     peer = host.spawn('peer' + str(rand), Peer)
 
     if len(sys.argv) > 5:
-        print "Error in the argument. Use: python peer.py type_of_peer torrent_hash length [gossip]"
+        print "Error in the argument. Use: python peer.py type_of_peer torrent_hash length [seedFile]"
         shutdown()
         exit()
     if len(sys.argv) < 4:
-        print "Error in the argument. Use: python peer.py type_of_peer torrent_hash length [gossip]"
+        print "Error in the argument. Use: python peer.py type_of_peer torrent_hash length [seedFile]"
         shutdown()
         exit()
     if len(sys.argv) == 4:
@@ -93,11 +93,11 @@ if __name__ == "__main__":
         lenData = int(sys.argv[3])
         with open(str(sys.argv[4]), 'r') as f:
             data = list(f.read())
-            f.closed
+            #f.closed
         if len(data) != lenData:
             print "Error in length. Length should be ", lenData, " and message has a length of ", len(data)
             shutdown()
             exit()
-    peer.init(torrent_hash)
+    peer.init()
 
     serve_forever()
