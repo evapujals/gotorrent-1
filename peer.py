@@ -24,7 +24,7 @@ class Peer(object):
 
     def init(self, torrent_hash):
         self.tracker = host.lookup_url('http://127.0.0.1:1277/tracker', 'Tracker', 'tracker')
-        self.interval1 = interval(self.host, 5, self.proxy, "announce", torrent_hash)
+        self.interval1 = interval(self.host, 5, self.proxy, "announce")
         # peer will send an announce every 5 seconds to tracker
         self.interval2 = interval(self.host, 10, self.proxy, "get_peers")
         # peer will do the method get_peers every 10 seconds
@@ -32,33 +32,34 @@ class Peer(object):
             self.interval3 = interval(self.host, 4, self.proxy, "push")
         elif type_of_peer == "pull":
             self.interval3 = interval(self.host, 4, self.proxy, "pull")
-        elif type_of_peer == "hybrid":
+        elif type_of_peer == "pull-push":
             self.interval3 = interval(self.host, 4, self.proxy, "push")
             self.interval4 = interval(self.host, 4, self.proxy, "pull")
 
-    def announce(self, torrent_hash):
-        self.torrent_hash = torrent_hash
-        self.tracker.announce(torrent_hash, self.proxy)
+    def announce(self):
+        self.tracker.announce(self.torrent_hash, self.proxy)
 
     def get_peers(self):
-        self.neighbors = self.tracker.get_peers(self.torrent_hash)
+        self.neighbors = self.tracker.get_peers(self.torrent_hash, self.proxy)
         print "".join(data)
 
 
     def push(self):
-        rndm = random.choice(self.neighbors)
-        index = random.randint(0, len(data)-1)
-        if (data[index] != ''):
-            rndm.missatge(data[index], index)
+        if self.neighbors != []:
+            rndm = random.choice(self.neighbors)
+            index = random.randint(0, len(data)-1)
+            if (data[index] != ''):
+                rndm.missatge(data[index], index)
 
     def missatge(self, msg, index):
         data[index] = msg
 
     def pull(self):
-        rndm = random.choice(self.neighbors)
-        index = random.randint(0, len(data)-1)
-        if (data[index] == ''):
-            data[index] = rndm.request(index)
+        if self.neighbors != []:
+            rndm = random.choice(self.neighbors)
+            index = random.randint(0, len(data)-1)
+            if (data[index] == ''):
+                data[index] = rndm.request(index)
 
     def request(self, index):
         return data[index]

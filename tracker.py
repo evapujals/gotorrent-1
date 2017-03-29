@@ -18,14 +18,15 @@ class Tracker(object):
         sleep(5) # sleep implemented in order to avoid an update when execTime=0
         self.interval1 = interval(self.host, 5, self.proxy, "update")
 
-    def get_peers(self, torrent_hash):
+    def get_peers(self, torrent_hash, peer):
         peerResult = []
-        if len(self.peers[torrent_hash].keys()) > 3:
+        if len(self.peers[torrent_hash].keys()) > 4:
             num = self.peers[torrent_hash].keys()
+            num.remove(peer)
             peerResult = random.sample(num, 3)
         else:
-            print self.peers[torrent_hash]
             peerResult = self.peers[torrent_hash].keys()
+            peerResult.remove(peer)
         return peerResult
 
     def announce(self, torrent_hash, peer):
