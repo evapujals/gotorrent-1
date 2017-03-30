@@ -1,7 +1,7 @@
 #! /bin/bash
 
 gnome-terminal -e "python trackerG.py"
-
+sleep 2
 gnome-terminal -e "python peerG.py $1 torren1 10 seedFile"
 gnome-terminal -e "python peerG.py $1 torren1 10"
 gnome-terminal -e "python peerG.py $1 torren1 10"

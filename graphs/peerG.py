@@ -48,7 +48,7 @@ class Peer(object):
         for item in data:
             if item != '':
                 counter += 1
-        result = float((counter*100)/ lenData)
+        result = int((counter*100)/ lenData)
         if result == 100:
             self.tracker.count()
             self.interval4.set() #stops the interval
