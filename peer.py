@@ -20,7 +20,8 @@ class Peer(object):
     data=""
     lenData=0
     type_of_peer=""
-
+    data_left=[]
+    data_recived=[]
 
     def init(self):
         self.tracker = host.lookup_url('http://127.0.0.1:1277/tracker', 'Tracker', 'tracker')
@@ -45,21 +46,28 @@ class Peer(object):
 
 
     def push(self):
-        if self.neighbors != []:
-            rndm = random.choice(self.neighbors)
-            index = random.randint(0, len(data)-1)
-            if (data[index] != ''):
+       if self.neighbors != []:
+            if data_recived != []:
+                rndm = random.choice(self.neighbors)
+                index = random.choice(data_recived)
                 rndm.missatge(data[index], index)
 
     def missatge(self, msg, index):
-        data[index] = msg
+        if (data[index] == ''):
+            if (msg != ''):
+                data[index] = msg
+                data_left.remove(index)
+                data_recived.append(index)
 
     def pull(self):
-        if self.neighbors != []:
-            rndm = random.choice(self.neighbors)
-            index = random.randint(0, len(data)-1)
-            if (data[index] == ''):
+        if data_left != []:
+            if self.neighbors != []:
+                rndm = random.choice(self.neighbors)
+                index = random.choice(data_left)
                 data[index] = rndm.request(index)
+                if (data[index] != ''):
+                    data_left.remove(index)
+                    data_recived.append(index)
 
     def request(self, index):
         return data[index]
@@ -87,10 +95,14 @@ if __name__ == "__main__":
         torrent_hash = str(sys.argv[2])
         lenData = int(sys.argv[3])
         data = ['']*lenData
+        data_left = list(range(lenData))
+        data_recived = []
     if len(sys.argv) == 5:
         type_of_peer = str(sys.argv[1])
         torrent_hash = str(sys.argv[2])
         lenData = int(sys.argv[3])
+        data_left = []
+        data_recived = list(range(lenData))
         with open(str(sys.argv[4]), 'r') as f:
             data = list(f.read())
             #f.closed
