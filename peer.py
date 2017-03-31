@@ -46,7 +46,7 @@ class Peer(object):
 
 
     def push(self):
-       if self.neighbors != []:
+        if self.neighbors != []:
             if data_recived != []:
                 rndm = random.choice(self.neighbors)
                 index = random.choice(data_recived)
