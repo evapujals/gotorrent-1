@@ -10,7 +10,7 @@ import random
 import sys
 
 class Peer(object):
-    _tell = ['get_peers', 'announce', 'set_hash', 'init', 'missatge', 'push', 'pull']
+    _tell = ['get_peers', 'announce', 'set_hash', 'init', 'missatge', 'push', 'pull', 'pull_recived']
     _ask = ['request']
     _ref = ['get_peers', 'push', 'pull']
 
@@ -64,13 +64,18 @@ class Peer(object):
             if self.neighbors != []:
                 rndm = random.choice(self.neighbors)
                 index = random.choice(data_left)
-                data[index] = rndm.request(index)
-                if (data[index] != ''):
-                    data_left.remove(index)
-                    data_recived.append(index)
+                future = rndm.request(index, future=True)
+                future.add_callback('pull_recived')
+
+    def pull_recived (self, future):
+        result = future.result()
+        data[result[1]] = result[0]
+        if (data[result[1]] != ''):
+            data_left.remove(result[1])
+            data_recived.append(result[1])
 
     def request(self, index):
-        return data[index]
+        return [data[index], index]
 
 
 if __name__ == "__main__":
