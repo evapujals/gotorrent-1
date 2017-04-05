@@ -1,8 +1,8 @@
-# Tracker pyTorrent
+# Tracker goTorrent
 # Jesus Gracia & Miquel Sabate
 # GEI URV 2016/2017
-# Version 2.1
-# Last-update 15.03.17
+# Version 2.2
+# Last-update 05.04.17
 
 from pyactor.context import set_context, create_host, serve_forever, sleep, interval
 import random

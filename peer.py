@@ -1,8 +1,8 @@
-# Peer pyTorrent
+# Peer goTorrent
 # Jesus Gracia & Miquel Sabate
 # GEI URV 2016/2017
-# Version 2.1
-# Last-update 15.03.17
+# Version 2.2
+# Last-update 05.04.17
 
 from pyactor.context import set_context, create_host, shutdown, serve_forever, interval
 from random import randint
@@ -33,7 +33,7 @@ class Peer(object):
             self.interval3 = interval(self.host, 4, self.proxy, "push")
         elif type_of_peer == "pull":
             self.interval3 = interval(self.host, 4, self.proxy, "pull")
-        elif type_of_peer == "pull-push":
+        elif type_of_peer == "push-pull":
             self.interval3 = interval(self.host, 4, self.proxy, "push")
             self.interval4 = interval(self.host, 4, self.proxy, "pull")
 

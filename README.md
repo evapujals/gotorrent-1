@@ -16,7 +16,7 @@ Use: python tracker.py
 It's the client of a torrent. You can run how many peers as you want.
 Use: python peer.py type\_of\_peer torrent_hash dataLength seedFile
 Where:
-* type\_of\_peer can be pull, push or pull-push
+* type\_of\_peer can be pull, push or push-pull
 * torrent_hash is the hash of the torrent you want to share
 * dataLength is the length of your file's string
 * seedFile is an optional argument. It's the path of the file that contains the original message. This message will be shared to all the peers that will be connected in the same torrent_hash
