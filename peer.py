@@ -27,8 +27,8 @@ class Peer(object):
         self.tracker = host.lookup_url('http://127.0.0.1:1277/tracker', 'Tracker', 'tracker')
         self.interval1 = interval(self.host, 5, self.proxy, "announce")
         # peer will send an announce every 5 seconds to tracker
-        self.interval2 = interval(self.host, 10, self.proxy, "get_peers")
-        # peer will do the method get_peers every 10 seconds
+        self.interval2 = interval(self.host, 2, self.proxy, "get_peers")
+        # peer will do the method get_peers every 2 seconds
         if type_of_peer == "push":
             self.interval3 = interval(self.host, 4, self.proxy, "push")
         elif type_of_peer == "pull":
